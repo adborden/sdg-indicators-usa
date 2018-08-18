@@ -1,0 +1,65 @@
+# Python CircleCI 2.0 configuration file
+version: 2
+jobs:
+  deploy_prod:
+    docker:
+      - image: circleci/ruby:2.5.1
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          key: test-dependencies-{{ checksum "Gemfile.lock" }}
+      - run:
+          name: Install Ruby dependencies
+          command: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
+      - save_cache:
+          key: test-dependencies-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      - run:
+          name: Build the Jekyll site
+          command: bundle exec jekyll build --config _config_prod.yml
+      - add_ssh_keys:
+          fingerprints:
+            # Replace this with the fingerprint for gh-prod.
+            - "9e:47:8e:0e:f1:51:5a:70:9f:6c:09:fd:e1:a2:ba:da"
+      - run:
+          name: Deploy to Github
+          command: bash scripts/deploy/circleci/deploy_prod.sh
+  deploy_staging:
+    docker:
+      - image: circleci/ruby:2.5.1
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          key: test-dependencies-{{ checksum "Gemfile.lock" }}
+      - run:
+          name: Install Ruby dependencies
+          command: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
+      - save_cache:
+          key: test-dependencies-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      - run:
+          name: Build the Jekyll site
+          command: bundle exec jekyll build
+      - add_ssh_keys:
+          fingerprints:
+            # Replace this with the fingerprint for gh-stg.
+            - "31:d1:7d:9e:b4:78:3d:c0:ac:66:71:03:11:02:47:0c"
+      - run:
+          name: Deploy to Github
+          command: bash scripts/deploy/circleci/deploy_staging.sh
+workflows:
+  version: 2
+  deploy:
+    jobs:
+      - deploy_prod:
+          filters:
+            branches:
+              only: master
+      - deploy_staging:
+          filters:
+            branches:
+              only: develop
