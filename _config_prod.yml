@@ -69,6 +69,17 @@ collections:
   goals:
     output: true
 
+# Menu
+menu:
+  - path: /reporting-status
+    translation_key: reporting_status
+  - path: /about
+    translation_key: about
+  - path: /guidance
+    translation_key: guidance
+  - path: /faq
+    translation_key: faq
+
 # The list of languages that are translated. The first one is the default.
 languages:
   - en
