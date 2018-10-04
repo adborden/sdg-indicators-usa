@@ -15,7 +15,7 @@ git rm -rfq .
 cd ..
 
 # The fully built site is already available at ~/repo/_site.
-cp -a ~/repo/_site/. out/.
+cp -a ~/repo/_site out/_site
 
 mkdir -p out/.circleci && cp -a .circleci/. out/.circleci/.
 cd out
