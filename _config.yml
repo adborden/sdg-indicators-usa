@@ -98,7 +98,7 @@ defaults:
 plugins:
   - jekyll-remote-theme
 
-remote_theme: brockfanning/sdg-theme@multilingual
+remote_theme: GSA/sdg-theme@multilingual
 
 custom_css:
   - /assets/css/custom.css
