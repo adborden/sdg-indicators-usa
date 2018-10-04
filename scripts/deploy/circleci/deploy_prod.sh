@@ -20,6 +20,8 @@ cp -a ~/repo/_site out/_site
 mkdir -p out/.circleci && cp -a .circleci/. out/.circleci/.
 cd out
 
+touch _config.yml
+
 git add -A
 git commit -m "Automated deployment to prod-pages: ${CIRCLE_SHA1}" --allow-empty
 
