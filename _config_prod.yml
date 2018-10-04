@@ -48,7 +48,13 @@ org_name: GSA
 markdown: kramdown
 
 # Travis Support
-exclude: [vendor, scripts, remotedata]
+exclude:
+  - vendor
+  - scripts
+  - remotedata
+  - Gemfile
+  - Gemfile.lock
+  - README.md
 
 # International Support
 # Eg name: Australia and adjective: Australian
